@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo Kết quả Part 2 — AI Evaluation Pipeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-purple: #a855f7;
+            --accent-green: #22c55e;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --code-bg: #090d16;
+            --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-green));
+        }
+
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .badge-status .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* Metrics Overview Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .stat-value.green { color: var(--accent-green); }
+        .stat-value.blue { color: var(--accent-blue); }
+        .stat-value.purple { color: var(--accent-purple); }
+        .stat-value.amber { color: var(--accent-amber); }
+
+        /* Main Section Cards */
+        .section-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 1.25rem;
+            background: var(--accent-blue);
+            border-radius: 2px;
+        }
+
+        p {
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        /* Task Cards Layout */
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .task-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .task-box:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+        }
+
+        .task-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--accent-green);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .task-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        /* Table Styling */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.925rem;
+        }
+
+        th {
+            background: rgba(15, 23, 42, 0.8);
+            color: var(--accent-blue);
+            font-weight: 600;
+            padding: 0.875rem 1rem;
+            border-bottom: 2px solid var(--card-border);
+        }
+
+        td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Code & Formula Blocks */
+        code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            background: var(--code-bg);
+            color: #38bdf8;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            color: #e2e8f0;
+            margin: 1rem 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--card-border);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Card -->
+        <div class="header-card">
+            <div class="badge-status">
+                <span class="dot"></span>
+                Part 2 Core Evaluation Engine — Completed
+            </div>
+            <h1>Báo cáo Kết quả Triển khai Part 2</h1>
+            <p class="subtitle">AI Evaluation & Benchmarking Pipeline · Northstar University Student Services RAG Assistant</p>
+        </div>
+
+        <!-- Stat Cards Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Tổng số Unit Tests</div>
+                <div class="stat-value blue">42</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Tests Passed</div>
+                <div class="stat-value green">41</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Tests Skipped (Bonus)</div>
+                <div class="stat-value amber">1</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Tỷ lệ Thành công</div>
+                <div class="stat-value purple">100%</div>
+            </div>
+        </div>
+
+        <!-- Section 1: Overview of Tasks -->
+        <div class="section-card">
+            <h2>Tổng quan 5 Tasks trong Part 2</h2>
+            <p>Hệ thống Đánh giá AI (`template.py`) đã hoàn thiện đầy đủ 5 thành phần cốt lõi của một khung đánh giá chuyên nghiệp:</p>
+            
+            <div class="tasks-grid">
+                <div class="task-box">
+                    <div class="task-title">
+                        Task 1 — Data Models
+                        <span class="task-badge">PASSED</span>
+                    </div>
+                    <div class="task-desc">Khai báo `QAPair` và `EvalResult` bằng Python dataclasses với mutable default factories và phương thức `overall_score()`.</div>
+                </div>
+
+                <div class="task-box">
+                    <div class="task-title">
+                        Task 2 — RAGASEvaluator
+                        <span class="task-badge">PASSED</span>
+                    </div>
+                    <div class="task-desc">Triển khai 3 Answer-side metrics (Faithfulness, Relevance, Completeness) và 2 Retrieval-side metrics (Context Recall, Context Precision).</div>
+                </div>
+
+                <div class="task-box">
+                    <div class="task-title">
+                        Task 3 — LLMJudge
+                        <span class="task-badge">PASSED</span>
+                    </div>
+                    <div class="task-desc">Đánh giá theo Rubric domain-specific 1–5 điểm và phát hiện các bias phổ biến (Leniency, Severity, Positional bias).</div>
+                </div>
+
+                <div class="task-box">
+                    <div class="task-title">
+                        Task 4 — BenchmarkRunner
+                        <span class="task-badge">PASSED</span>
+                    </div>
+                    <div class="task-desc">Tự động hóa chạy benchmark, tổng hợp báo cáo aggregate, phát hiện lỗi suy giảm (Regression Drop > 0.05) làm CI/CD Quality Gate.</div>
+                </div>
+
+                <div class="task-box">
+                    <div class="task-title">
+                        Task 5 — FailureAnalyzer
+                        <span class="task-badge">PASSED</span>
+                    </div>
+                    <div class="task-desc">Phân loại failure taxonomy, phân tích nguyên nhân gốc rễ (5 Whys), sinh đề xuất cải tiến và lập bảng Improvement Log.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Technical & Architecture Design -->
+        <div class="section-card">
+            <h2>Kiến trúc & Nguyên lý Đánh giá (Design & Architecture)</h2>
+            <p><strong>1. Phân tách Answer Metrics và Retrieval Metrics trong Overall Score:</strong></p>
+            <p>Phương thức <code>overall_score()</code> chỉ tính trung bình 3 metrics phía Generator:</p>
+            <pre>overall_score = (Faithfulness + Answer Relevance + Completeness) / 3.0</pre>
+            <p>Hai chỉ số <code>Context Precision</code> và <code>Context Recall</code> hoạt động độc lập nhằm chẩn đoán bước Retriever mà không làm sai lệch điểm số tổng thể của câu trả lời.</p>
+
+            <p><strong>2. Phân loại Lỗi (Failure Taxonomy & First-Match-Wins Rule):**</p>
+            <p>Trong <code>run_full_eval()</code>, cờ <code>passed = True</code> khi cả 3 answer-side metrics đều $\ge 0.5$. Nếu không đạt, loại lỗi được gán theo thứ tự ưu tiên tuyệt đối:</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Điều kiện metric</th>
+                            <th>Loại lỗi (Failure Type)</th>
+                            <th>Nguyên nhân gốc rễ dự kiến</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Faithfulness < 0.3</code></td>
+                            <td><code>hallucination</code></td>
+                            <td>Context bị thiếu hoặc yếu, LLM tự bịa thông tin ngoài văn bản.</td>
+                        </tr>
+                        <tr>
+                            <td><code>Relevance < 0.3</code></td>
+                            <td><code>irrelevant</code></td>
+                            <td>Câu trả lời không đúng trọng tâm thắc mắc, prompt mơ hồ.</td>
+                        </tr>
+                        <tr>
+                            <td><code>Completeness < 0.3</code></td>
+                            <td><code>incomplete</code></td>
+                            <td>Bỏ sót ý quan trọng, window size nhỏ hoặc trích xuất thiếu.</td>
+                        </tr>
+                        <tr>
+                            <td>Khác (Failed nhưng các score $\ge 0.3$)</td>
+                            <td><code>off_topic</code></td>
+                            <td>Nhận diện intent sai hoặc vi phạm guardrails.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section 3: Test Matrix -->
+        <div class="section-card">
+            <h2>Ma trận Kết quả Kiểm thử (Test Suite Matrix)</h2>
+            <p>Kết quả thực thi toàn bộ 42 unit tests thông qua lệnh <code>.venv/bin/pytest tests/ -v</code>:</p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Test Class</th>
+                            <th>Số lượng Test</th>
+                            <th>Trạng thái</th>
+                            <th>Mô tả Chức năng Kiểm tra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>TestEvalResultOverallScore</code></td>
+                            <td>3</td>
+                            <td><span class="task-badge">3 PASSED</span></td>
+                            <td>Kiểm tra trung bình cộng 3 metrics answer-side trong EvalResult.</td>
+                        </tr>
+                        <tr>
+                            <td><code>TestRAGASEvaluator</code></td>
+                            <td>7</td>
+                            <td><span class="task-badge">7 PASSED</span></td>
+                            <td>Kiểm tra Faithfulness, Relevance, Completeness với word-overlap heuristic.</td>
+                        </tr>
+                        <tr>
+                            <td><code>TestContextMetrics</code></td>
+                            <td>7</td>
+                            <td><span class="task-badge">6 PASSED / 1 SKIPPED</span></td>
+                            <td>Kiểm tra Context Recall & Rank-aware Context Precision (AP@K). Test bonus skip.</td>
+                        </tr>
+                        <tr>
+                            <td><code>TestRetrievalMetricWiring</code></td>
+                            <td>3</td>
+                            <td><span class="task-badge">3 PASSED</span></td>
+                            <td>Kiểm tra việc truyền `contexts` vào `run_full_eval` và forwarding trong runner.</td>
+                        </tr>
+                        <tr>
+                            <td><code>TestLLMJudge</code></td>
+                            <td>4</td>
+                            <td><span class="task-badge">4 PASSED</span></td>
+                            <td>Kiểm tra scoring theo rubric và bias detection (leniency/severity).</td>
+                        </tr>
+                        <tr>
+                            <td><code>TestBenchmarkRunner</code></td>
+                            <td>6</td>
+                            <td><span class="task-badge">6 PASSED</span></td>
+                            <td>Kiểm tra chạy benchmark diện rộng và tổng hợp báo cáo aggregate.</td>
+                        </tr>
+                        <tr>
+                            <td><code>TestRunRegression</code></td>
+                            <td>3</td>
+                            <td><span class="task-badge">3 PASSED</span></td>
+                            <td>Kiểm tra cơ chế phát hiện sụt giảm điểm (Drop > 0.05) cho CI/CD quality gate.</td>
+                        </tr>
+                        <tr>
+                            <td><code>TestFailureAnalyzer</code></td>
+                            <td>5</td>
+                            <td><span class="task-badge">5 PASSED</span></td>
+                            <td>Kiểm tra phân loại lỗi và đưa ra đề xuất cải tiến tự động.</td>
+                        </tr>
+                        <tr>
+                            <td><code>TestGenerateImprovementLog</code></td>
+                            <td>4</td>
+                            <td><span class="task-badge">4 PASSED</span></td>
+                            <td>Kiểm tra tạo bảng log Markdown với trạng thái Open.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 AI Evaluation Pipeline · Developed for VinUni K3 AI Competency Program</p>
+        </footer>
+    </div>
+</body>
+</html>
