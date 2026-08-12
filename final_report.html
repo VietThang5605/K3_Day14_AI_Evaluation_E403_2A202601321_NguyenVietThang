@@ -552,6 +552,48 @@
             </div>
         </div>
 
+        <!-- RERANKING BENCHMARK -->
+        <div class="section-card" id="rerank">
+            <div class="section-title"><span>Bonus 3.5</span> Thực nghiệm Retrieval Reranking (`rerank_by_overlap`)</div>
+            
+            <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                Kiểm chứng thực nghiệm ảnh hưởng của thuật toán <code>rerank_by_overlap()</code> lên chỉ số <strong>Context Precision</strong> và <strong>Context Recall</strong> trên 5 trace cases.
+            </p>
+
+            <div style="overflow-x: auto; margin-bottom: 1.25rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Recall before</th>
+                            <th>Recall after</th>
+                            <th>Precision before</th>
+                            <th>Precision after</th>
+                            <th>Delta Precision</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>M02</td><td>1.000</td><td>1.000</td><td>0.867</td><td>0.917</td><td><strong style="color: var(--accent-green);">+0.050</strong></td></tr>
+                        <tr><td>M04</td><td>1.000</td><td>1.000</td><td>0.700</td><td>0.700</td><td>+0.000</td></tr>
+                        <tr><td>M06</td><td>1.000</td><td>1.000</td><td>0.887</td><td>0.887</td><td>+0.000</td></tr>
+                        <tr><td>H02</td><td>0.791</td><td>0.791</td><td>1.000</td><td>1.000</td><td>+0.000</td></tr>
+                        <tr><td>H05</td><td>0.659</td><td>0.659</td><td>0.887</td><td>0.950</td><td><strong style="color: var(--accent-green);">+0.062</strong></td></tr>
+                        <tr style="font-weight: 700;">
+                            <td>Avg</td><td>0.890</td><td>0.890</td><td>0.868</td><td>0.891</td><td><strong style="color: var(--accent-green);">+0.023</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box green">
+                <h4 style="margin-bottom: 0.5rem; font-size: 1rem; color: var(--accent-green);">Kết luận thực nghiệm:</h4>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+                    • <strong>Context Recall giữ nguyên 100% (0.890):</strong> Do Reranking chỉ sắp xếp lại thứ tự của tập chunks hiện có mà không thêm/xóa chunk nào khỏi tập hợp context.<br>
+                    • <strong>Context Precision tăng từ 0.868 lên 0.891 (+0.023):</strong> Đẩy các chunk có độ tương quan từ vựng cao nhất lên vị trí 1–2, giúp Generator dễ dàng tiếp cận thông tin chuẩn xác và loại bỏ nhiễu.
+                </p>
+            </div>
+        </div>
+
         <!-- PART 4 -->
         <div class="section-card" id="part4">
             <div class="section-title"><span>Part 4</span> Reflection, 5 Whys & Continuous Improvement</div>

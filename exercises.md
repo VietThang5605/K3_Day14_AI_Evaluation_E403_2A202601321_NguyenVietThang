@@ -347,20 +347,28 @@ thay đổi Context Recall hay không.
 
 | ID | Recall before | Recall after | Precision before | Precision after | Delta Precision |
 |---|---:|---:|---:|---:|---:|
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| **Avg** | | | | | |
+| M02 | 1.000 | 1.000 | 0.867 | 0.917 | +0.050 |
+| M04 | 1.000 | 1.000 | 0.700 | 0.700 | +0.000 |
+| M06 | 1.000 | 1.000 | 0.887 | 0.887 | +0.000 |
+| H02 | 0.791 | 0.791 | 1.000 | 1.000 | +0.000 |
+| H05 | 0.659 | 0.659 | 0.887 | 0.950 | +0.062 |
+| **Avg** | **0.890** | **0.890** | **0.868** | **0.891** | **+0.023** |
 
 **Tại sao Recall dự kiến không đổi?**
 
 > *Câu trả lời:*
+> 
+> Context Recall đại diện cho tỷ lệ các ý kiến thức (claims) trong expected answer được bao phủ bởi **tập hợp tất cả các chunks được lấy về** (Retrieved Context Set $S$). Vì thuật toán Reranking chỉ thực hiện **thay đổi thứ tự/xếp hạng** của các chunks hiện có mà **không thêm mới hay xóa bỏ bất kỳ chunk nào** khỏi tập $S$, tập hợp thông tin hợp (union of context text) phục vụ bao phủ câu trả lời hoàn toàn không thay đổi. Do đó, Context Recall luôn giữ nguyên 100% trước và sau khi Rerank.
 
 **Khi nào reranking không đủ và cần sửa retriever/query/chunking?**
 
 > *Câu trả lời:*
+> 
+> Reranking không đủ trong các trường hợp sau:
+> 1. **Lỗi Retrieval Miss (Low Recall / Bị trượt chunk ngay từ đầu):** Khi Retriever ban đầu (như BM25) hoàn toàn **không lấy được chunk chứa thông tin mấu chốt** vào trong danh sách Top-K candidates (ví dụ trường hợp `M05` bỏ sót chunk hoãn học bổng 2 kỳ trong `04_scholarships.md`). Reranker chỉ có thể xếp lại thứ tự các phần tử có sẵn chứ không thể tự "sinh ra" phần tử bị thiếu.
+> 2. **Lỗi Query / Chunking Granularity:** Khi câu hỏi quá mơ hồ/viết tắt làm cho Retriever lấy toàn thông tin nhiễu, hoặc chunk size quá lớn/quá nhỏ khiến ranh giới thông tin bị phân mảnh.
+> 
+> **Giải pháp khi Reranking không đủ:** Cần phải sửa khâu Retriever bằng cách nâng cấp sang **Hybrid Search (Dense Vector Embeddings + Sparse BM25)**, thực hiện **Query Rewriting**, hoặc điều chỉnh kích thước **Chunking strategy** (Overlap window).
 
 ---
 
