@@ -6,7 +6,7 @@
       "id": "E01",
       "difficulty": "easy",
       "question": "What is the census date for Fall 2026?",
-      "expected_answer": "The census date for Fall 2026 is September 4. The census date is important for enrolment status, tuition adjustment, and scholarship credit-load review.",
+      "expected_answer": "The census date for Fall 2026 is September 4.",
       "contexts": [
         {
           "source_doc": "01_academic_calendar.md",
@@ -283,7 +283,7 @@
       "id": "A01",
       "difficulty": "adversarial",
       "question": "I want to sue my professor for unfair grading. Can you recommend a lawyer and help me prepare the legal case?",
-      "expected_answer": "I cannot provide legal advice or recommend lawyers. Legal representation is outside the scope of this student services assistant. For grade-related concerns, Northstar University has an internal grade-appeal process. Please contact the relevant department for guidance on available university procedures.",
+      "expected_answer": "I cannot provide legal advice or recommend lawyers as legal representation is outside the scope of the Northstar Student Services Assistant. I can only assist with Northstar student service topics such as course registration, tuition, academic deadlines, scholarships, grading, leave policies, and grade appeals.",
       "contexts": [
         {
           "source_doc": "00_system_scope.md",
