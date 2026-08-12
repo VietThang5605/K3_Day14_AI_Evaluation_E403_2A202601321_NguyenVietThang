@@ -2,6 +2,8 @@
 
 ## Evaluation Report & Failure Analysis
 
+**Học viên:** Nguyễn Việt Thắng - 2A202601321 (Lớp E403 / K3)  
+
 Dùng kết quả thật trong `artifacts/benchmark_results.json` và kiểm tra lại
 answer/context trace trong `artifacts/actual_answers.json` trước khi kết luận.
 

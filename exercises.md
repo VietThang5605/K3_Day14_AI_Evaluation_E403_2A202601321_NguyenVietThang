@@ -2,9 +2,9 @@
 
 ## AI Evaluation & Benchmarking · Lab Worksheet
 
-**Thời gian làm bài:** 09:15–12:00
-
-**Domain:** Northstar University Student Services
+**Học viên:** Nguyễn Việt Thắng - 2A202601321 (Lớp E403 / K3)  
+**Thời gian làm bài:** 09:15–12:00  
+**Domain:** Northstar University Student Services  
 
 Điền trực tiếp câu trả lời vào file này. Golden dataset 20 QA được viết một lần
 duy nhất trong `golden_dataset.json`, không chép lại toàn bộ vào Markdown.

@@ -2,7 +2,7 @@
 
 **Ngày hoàn thành:** 12/08/2026  
 **File thực hiện:** [`template.py`](file:///Users/nguyenvietthang/Coding/VinUni/Lab/K3_Day14_AI_Evaluation_E403_2A202601321_NguyenVietThang/template.py)  
-**Tác giả:** AI Evaluation Pipeline Developer  
+**Học viên:** Nguyễn Việt Thắng - 2A202601321 (Lớp E403 / K3)  
 
 ---
 
