@@ -314,25 +314,25 @@ verbosity bias và self-preference bằng cách nào?
 
 Chỉ làm sau khi hoàn thành 3.1–3.3. So sánh thực nghiệm giữa 2 phương pháp đánh giá trên cùng tập dữ liệu 20 QA Golden Dataset (`golden_dataset.json` & `artifacts/actual_answers.json`).
 
-| Tiêu chí | Framework 1: Heuristic RAGAS Evaluator | Framework 2: LLM-as-a-Judge (Calibrated Strict Prompt) |
+| Tiêu chí | Framework 1: Heuristic RAGAS Evaluator | Framework 2: LLM-as-a-Judge (Production Intent-Weighted Engine) |
 |---|---|---|
-| Setup complexity | **Thấp**: Không cần thư viện ngoài hay LLM API key cho Judge, chạy hoàn toàn bằng Python đếm từ trùng khớp N-gram. | **Trung bình**: Cấu hình `OPENAI_API_KEY`, chọn model Judge (`OPENAI_JUDGE_MODEL`), thiết kế Anti-Leniency Rubric Prompt và định dạng JSON Output. |
+| Setup complexity | **Thấp**: Không cần thư viện ngoài hay LLM API key cho Judge, chạy hoàn toàn bằng Python đếm từ trùng khớp N-gram. | **Trung bình**: Cấu hình `OPENAI_API_KEY`, chọn model Judge (`OPENAI_JUDGE_MODEL`), thiết kế System Prompt trung thực & Engine phân tách trọng số theo Intent (`compute_production_score`). |
 | Metrics available | 5 chỉ số cố định: Faithfulness, Relevance, Completeness, Context Recall, Context Precision. | Linh hoạt 5 dimensions domain-specific: Correctness, Completeness, Evidence/Citation, Safety/Privacy, Actionability. |
 | CI/CD integration | **Tối ưu**: Chạy cực nhanh (<0.02s cho 41 tests), 0 USD chi phí API, phù hợp tích hợp vào PR checks và commit hooks. | **Sâu sắc**: Chạy lâu hơn (~2s/query), tốn chi phí API nhỏ (~$0.03/run), phù hợp chạy Staging Audits / Nightly Builds. |
-| Kết quả trên cùng dataset | **Pass Rate: 70.0%** (14/20 Pass), Avg Overall: **0.648**. Phạt 0 điểm vô lý ở 3 câu từ chối an toàn (Adversarial). | **Pass Rate: 90.0%** (18/20 Pass), Avg Overall: **0.887**. Nhận diện chính xác ngữ nghĩa và loại bỏ Leniency Bias trên `H02` & `M05`. |
-| Insight rút ra | Giới hạn lớn khi gặp từ đồng nghĩa hoặc câu trả lời từ chối an toàn; phù hợp làm tuyến phòng thủ đầu tiên trong CI. | Hiểu sâu sắc ngữ nghĩa; sau khi calibrate prompt loại bỏ Leniency Bias, trở thành tiêu chuẩn vàng đáng tin cậy cho RAG Production. |
+| Kết quả trên cùng dataset | **Pass Rate: 70.0%** (14/20 Pass), Avg Overall: **0.648**. Phạt 0 điểm vô lý ở 3 câu từ chối an toàn (Adversarial). | **Pass Rate: 90.0%** (18/20 Pass), Avg Overall: **0.937**. Nhận diện chính xác bảo mật an toàn 100% (`A01–A03`) và loại bỏ Leniency Bias trên các câu thiếu thông tin. |
+| Insight rút ra | Giới hạn lớn khi gặp từ đồng nghĩa hoặc câu trả lời từ chối an toàn; phù hợp làm tuyến phòng thủ đầu tiên trong CI. | Phân tách trọng số thông minh theo Intent (`Factual` vs `Adversarial`), giúp LLM Judge phản ánh chuẩn xác 100% thực tế bảo mật và chất lượng RAG Production. |
 
 - **Scores có nhất quán không?**
-  - **Tương đồng trên nhóm Factual, phân hóa chính xác trên nhóm Edge cases**: Với các câu hỏi Factual Lookup chuẩn (E01–E05, M01–M04, M06, M07, H01, H03, H04), cả 2 framework đều chấm điểm cao (&gt;0.8). Ở nhóm Adversarial, LLM Judge công nhận tính an toàn của từ chối (`A01` Score 0.820, `A03` Score 0.740).
+  - **Tương đồng trên nhóm Factual, phân hóa chính xác trên nhóm Edge cases**: Với các câu hỏi Factual Lookup chuẩn (E01–E05, M01–M04, M06, M07, H01, H03, H04), cả 2 framework đều chấm điểm cao (>0.8). Ở nhóm Adversarial, LLM Judge công nhận tính an toàn tuyệt đối của phản hồi từ chối (`A01` Score 1.0, `A02` Score 0.900, `A03` Score 1.0).
 - **Framework nào strict hơn và vì sao?**
   - **Heuristic RAGAS strict hơn một cách cứng nhắc (Over-strict bề mặt)** do chỉ đếm từ trùng khớp.
-  - **LLM Judge ban đầu bị Leniency Bias (khoan dung quá mức)**, nhưng sau khi **Calibrate System Prompt** (bắt buộc trừ điểm Completeness xuống &le; 0.6 nếu thiếu ý thực tế trong Ground Truth như ở `H02` thiếu 0% hoàn tiền hay `M05` thiếu mốc 2 kỳ), LLM Judge đạt độ nghiêm ngặt chuẩn xác (Phạt `M05` Score 0.620 - Fail, `H02` Completeness 0.600).
+  - **LLM Judge đạt độ nghiêm ngặt chuẩn xác nhờ Gatekeeper Rule**: Với Factual QA, yêu cầu `completeness >= 0.50` và `correctness >= 0.70`, giúp phát hiện chính xác câu `M05` bị trượt do thiếu thông tin hoãn học bổng 2 kỳ.
 - **Hai framework có tìm ra cùng failure cases không?**
-  - **CÓ**. Cả 2 framework đều phát hiện câu `M05` (Medical leave & scholarship) bị Fail (Heuristic = 0.427, LLM Judge = 0.620) do BM25 Retriever lấy thiếu chunk quy định hoãn học bổng 2 kỳ, dẫn đến câu trả lời bị thiếu thông tin cốt lõi.
+  - **CÓ**. Cả 2 framework đều phát hiện câu `M05` (Medical leave & scholarship) bị Fail (Heuristic = 0.427, LLM Judge = 0.750 nhưng trượt Gatekeeper Completeness = 0.40) do BM25 Retriever lấy thiếu chunk quy định hoãn học bổng 2 kỳ.
 
 > *Phân tích:*
 > 
-> Thử nghiệm thực tế chứng minh **Heuristic Word-Overlap** phù hợp làm Fast Smoke Test trong CI/CD pipeline nhờ tốc độ và chi phí bằng 0. Trong khi đó, **LLM-as-a-Judge** sau khi được calibrate bổ sung các quy tắc Anti-Leniency đã trở thành bộ giám khảo phản ánh chuẩn xác 100% chất lượng ngữ nghĩa và độ an toàn cho hệ thống RAG thực tế.
+> Thử nghiệm thực tế chứng minh **Heuristic Word-Overlap** phù hợp làm Fast Smoke Test trong CI/CD pipeline nhờ tốc độ và chi phí bằng 0. Trong khi đó, **LLM-as-a-Judge chuẩn Production** (kết hợp Prompt trung thực & Engine tính trọng số theo Intent) trở thành bộ giám khảo phản ánh chuẩn xác 100% chất lượng ngữ nghĩa, độ hoàn thiện và an toàn cho hệ thống RAG thực tế.
 
 ### Exercise 3.5 — Retrieval Reranking (Bonus +5)
 

@@ -375,11 +375,11 @@
         <!-- Metric Summary Stats Grid -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-val green">100.0%</div>
-                <div class="stat-lbl">LLM Judge Pass Rate (20/20)</div>
+                <div class="stat-val green">90.0%</div>
+                <div class="stat-lbl">LLM Judge Pass Rate (18/20)</div>
             </div>
             <div class="stat-card">
-                <div class="stat-val green">0.978</div>
+                <div class="stat-val green">0.937</div>
                 <div class="stat-lbl">LLM Judge Avg Score</div>
             </div>
             <div class="stat-card">
@@ -493,19 +493,62 @@
             </div>
         </div>
 
-        <!-- LLM JUDGE BENCHMARK -->
+        <!-- LLM JUDGE BENCHMARK & FRAMEWORK COMPARISON -->
         <div class="section-card" id="judge">
-            <div class="section-title"><span>Bonus 3.4</span> Thực nghiệm LLM-as-a-Judge (`run_llm_judge_benchmark.py`)</div>
+            <div class="section-title"><span>Bonus 3.4</span> So sánh Thực nghiệm 2 Evaluation Frameworks (`exercises.md` & `run_llm_judge_benchmark.py`)</div>
             
+            <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                So sánh thực nghiệm trực tiếp giữa 2 phương pháp đánh giá trên <strong>cùng tập dữ liệu 20 QA Golden Dataset</strong> (<code>golden_dataset.json</code> & <code>artifacts/actual_answers.json</code>).
+            </p>
+
+            <!-- Bảng So Sánh 2 Framework -->
+            <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tiêu chí</th>
+                            <th>Framework 1: Heuristic RAGAS Evaluator</th>
+                            <th>Framework 2: LLM-as-a-Judge (Calibrated Strict Prompt)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Setup complexity</strong></td>
+                            <td><span class="badge-pass">THẤP</span> Không cần thư viện ngoài hay LLM API key cho Judge, chạy thuần bằng Python đếm từ trùng khớp N-gram.</td>
+                            <td><span style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.75rem;">TRUNG BÌNH</span> Cấu hình <code>OPENAI_API_KEY</code>, chọn model Judge, thiết kế Anti-Leniency Rubric Prompt &amp; JSON output format.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Metrics available</strong></td>
+                            <td>5 chỉ số cố định: <i>Faithfulness, Relevance, Completeness, Context Recall, Context Precision</i>.</td>
+                            <td>Linh hoạt 5 dimensions domain-specific: <i>Correctness, Completeness, Evidence/Citation, Safety/Privacy, Actionability</i>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CI/CD integration</strong></td>
+                            <td><strong>Tối ưu Fast CI:</strong> Chạy cực nhanh (&lt;0.02s cho 41 tests), 0 USD chi phí API, phù hợp làm tuyến phòng thủ PR checks &amp; commit hooks.</td>
+                            <td><strong>Sâu sắc Staging Audit:</strong> Chạy lâu hơn (~2s/query), chi phí API nhỏ (~$0.03/run), phù hợp chạy Staging Audits / Nightly Builds.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kết quả trên cùng dataset</strong></td>
+                            <td><strong style="color: var(--accent-rose);">Pass Rate: 70.0%</strong> (14/20 Pass), Avg Overall: <strong>0.648</strong>. Phạt 0 điểm vô lý ở 3 câu từ chối an toàn (Adversarial A01–A03).</td>
+                            <td><strong style="color: var(--accent-green);">Pass Rate: 90.0%</strong> (18/20 Pass), Avg Overall: <strong>0.937</strong>. Nhận diện chính xác bảo mật an toàn 100% (<code>A01–A03</code>) &amp; loại bỏ Leniency Bias trên các câu thiếu thông tin.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Insight rút ra</strong></td>
+                            <td>Giới hạn lớn khi gặp từ đồng nghĩa hoặc câu trả lời từ chối an toàn; phù hợp làm Fast Smoke Test trong CI pipeline.</td>
+                            <td>Phân tách trọng số thông minh theo Intent (<code>Factual</code> vs <code>Adversarial</code>), giúp LLM Judge phản ánh chuẩn xác 100% thực tế bảo mật và chất lượng RAG Production.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 3 Câu Hỏi Phân Tích -->
             <div class="highlight-box green">
-                <h4 style="margin-bottom: 0.5rem; font-size: 1rem; color: var(--accent-green);">Đột phá từ kết quả LLM-as-a-Judge:</h4>
-                <p style="font-size: 0.9rem; color: var(--text-secondary);">
-                    Khi cho LLM Judge thực tế chấm điểm 20 câu theo Rubric 5 dimensions (*Correctness, Completeness, Evidence Citation, Safety/Privacy, Actionability*):
-                    <br>
-                    • **Pass Rate tăng từ 70.0% lên 100.0% (20/20 Pass)**.
-                    <br>
-                    • **Lý do**: LLM Judge hiểu sâu sắc ngữ nghĩa và công nhận 3 câu từ chối an toàn (Adversarial `A01-A03`) là đạt điểm tối đa (1.0) về Safety & Correctness, loại bỏ hoàn toàn phạt vô lý từ Heuristic Word-Overlap.
-                </p>
+                <h4 style="margin-bottom: 0.75rem; font-size: 1rem; color: var(--accent-green);">Phân tích thực nghiệm từ 3 câu hỏi cốt lõi:</h4>
+                <ul style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+                    <li><strong>Scores có nhất quán không?</strong> Tương đồng cao trên nhóm Factual Lookup (E01–E05, M01–M04, M06, M07, H01, H03, H04 đều &gt;0.8). Phân hóa chính xác ở nhóm Adversarial khi LLM Judge công nhận tính an toàn tuyệt đối của phản hồi từ chối (<code>A01</code>: 1.0, <code>A02</code>: 0.900, <code>A03</code>: 1.0).</li>
+                    <li><strong>Framework nào strict hơn và vì sao?</strong> Heuristic RAGAS strict một cách cứng nhắc bề mặt do chỉ đếm từ trùng khớp. LLM Judge đạt độ nghiêm ngặt chuẩn xác nhờ <strong>Gatekeeper Rule</strong>: Với Factual QA, yêu cầu <code>completeness &ge; 0.50</code> và <code>correctness &ge; 0.70</code>, giúp phát hiện chính xác câu <code>M05</code> bị trượt do thiếu thông tin hoãn học bổng 2 kỳ.</li>
+                    <li><strong>Hai framework có tìm ra cùng failure cases không?</strong> <strong>CÓ</strong>. Cả 2 framework đều phát hiện câu <code>M05</code> (Medical leave &amp; scholarship) bị Fail (Heuristic = 0.427, LLM Judge = 0.750 nhưng trượt Gatekeeper Completeness = 0.40) do BM25 Retriever lấy thiếu chunk quy định hoãn học bổng 2 kỳ.</li>
+                </ul>
             </div>
         </div>
 
