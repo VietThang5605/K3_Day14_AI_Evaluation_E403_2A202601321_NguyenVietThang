@@ -2,9 +2,9 @@
   "judge_model": "gpt-4o-mini",
   "configured_model": "gpt-5.6-terra",
   "total_evaluated": 20,
-  "passed_count": 20,
-  "pass_rate": 100.0,
-  "avg_overall_score": 0.978,
+  "passed_count": 18,
+  "pass_rate": 90.0,
+  "avg_overall_score": 0.887,
   "results": [
     {
       "id": "E01",
@@ -21,7 +21,7 @@
       },
       "overall_score": 1.0,
       "passed": true,
-      "reasoning": "The AI's answer is 100% accurate, directly matches the expected answer, and is fully supported by the retrieved context. It also provides clear and actionable information without any safety or privacy concerns."
+      "reasoning": "The actual answer correctly states the census date for Fall 2026 as September 4, which matches the expected answer. It is complete, accurate, and well-supported by the retrieved context, providing clear and actionable information."
     },
     {
       "id": "E02",
@@ -38,7 +38,7 @@
       },
       "overall_score": 1.0,
       "passed": true,
-      "reasoning": "The AI's answer is fully accurate, covering all aspects of the question regarding credit registration limits and requirements. It is supported by the provided context, ensuring safety and clarity in guidance for students."
+      "reasoning": "The AI's answer accurately reflects the expected answer regarding the credit load for undergraduate students, including the requirement for exceeding 18 credits. It is complete, well-cited from the context, and provides clear guidance."
     },
     {
       "id": "E03",
@@ -55,7 +55,7 @@
       },
       "overall_score": 1.0,
       "passed": true,
-      "reasoning": "The AI's answer is 100% accurate and directly matches the expected answer regarding the undergraduate tuition rate. It covers the question completely, cites the relevant context accurately, and provides clear and actionable information for the student."
+      "reasoning": "The actual answer accurately states the undergraduate tuition rate per credit for the 2026–2027 academic year, fully addressing the question posed. It is complete, correctly cites the relevant information from the context, and provides clear guidance without any safety or privacy concerns."
     },
     {
       "id": "E04",
@@ -72,7 +72,7 @@
       },
       "overall_score": 1.0,
       "passed": true,
-      "reasoning": "The AI's answer is fully accurate, covering all aspects of the question regarding the percentage of tuition covered and the fees excluded. It is directly supported by the retrieved context, ensuring completeness and proper citation. The response is safe and provides clear guidance to the student."
+      "reasoning": "The actual answer accurately reflects the information provided in the expected answer, covering both the percentage of tuition covered and the specific fees excluded. It is complete, correctly cites the context, and provides clear guidance."
     },
     {
       "id": "E05",
@@ -89,7 +89,7 @@
       },
       "overall_score": 1.0,
       "passed": true,
-      "reasoning": "The AI's answer is fully accurate and directly reflects the expected answer, covering all necessary details regarding the minimum attendance requirement. It is well-grounded in the provided context, ensuring safety and privacy, and offers clear guidance to the student."
+      "reasoning": "The AI's answer accurately reflects the minimum attendance requirement and includes the possibility of a higher threshold set by the course syllabus, aligning perfectly with the expected answer. It is complete, grounded in the provided context, and offers clear guidance."
     },
     {
       "id": "M01",
@@ -106,7 +106,7 @@
       },
       "overall_score": 1.0,
       "passed": true,
-      "reasoning": "The AI's answer is fully accurate, covering all aspects of the late-add process for Fall 2026, including the opening and closing dates, fee, and required approvals. It is well-grounded in the provided context and offers clear guidance to the student."
+      "reasoning": "The actual answer accurately reflects the details regarding the late-add window, fee, and required approvals for Fall 2026, matching the expected answer. It is complete, grounded in the provided context, and offers clear guidance to the student."
     },
     {
       "id": "M02",
@@ -123,7 +123,7 @@
       },
       "overall_score": 1.0,
       "passed": true,
-      "reasoning": "The AI's answer accurately captures all key differences between the two versions of the registration policy regarding late adds, including the late add window, fees, approval process, and effective dates. It is complete and well-cited from the provided context, ensuring safety and providing clear guidance."
+      "reasoning": "The actual answer accurately reflects the differences between the two versions of the registration policy regarding late adds, including the late add window, fees, approval process, and effective dates. All key points from the expected answer are addressed, and the information is well-grounded in the provided context."
     },
     {
       "id": "M03",
@@ -133,14 +133,14 @@
       "actual_answer": "When a student withdraws from all courses in a term, it is considered a term withdrawal, which may affect tuition, immigration status, housing, insurance, and scholarships. \n\n**Tuition Consequences:**\n- If a course is dropped by the end of the standard add/drop period, 100% of that course's tuition is reversed.\n- From the day after the standard add/drop through the census date, 50% is reversed.\n- After the census date, no tuition is reversed for an ordinary course withdrawal.\n- Mandatory term fees are refundable only if the student withdraws from all courses before classes begin.\n\n**Other Areas Affected:**\n- Immigration status for international students.\n- Housing arrangements.\n- Insurance coverage.\n- Scholarships, which may be paused or lost. \n\nInternational students should consult the International Student Office before reducing their registered load.",
       "scores": {
         "correctness": 1.0,
-        "completeness": 1.0,
+        "completeness": 0.8,
         "evidence_citation": 1.0,
         "safety_privacy": 1.0,
         "actionability": 1.0
       },
-      "overall_score": 1.0,
+      "overall_score": 0.9,
       "passed": true,
-      "reasoning": "The AI's answer accurately reflects the expected answer regarding tuition refund policies and the impact of a term withdrawal on various areas. It covers all necessary conditions and provides clear guidance for international students, ensuring safety and privacy by not including any out-of-scope information."
+      "reasoning": "The answer is factually accurate and provides clear guidance. However, it lacks the specific detail that 'no tuition is reversed after census' applies to all courses, which affects completeness. All other aspects are well-covered and grounded in the provided context."
     },
     {
       "id": "M04",
@@ -157,7 +157,7 @@
       },
       "overall_score": 1.0,
       "passed": true,
-      "reasoning": "The AI's answer accurately reflects the conditions for setting up a tuition payment plan and the consequences of missing an installment, fully addressing all aspects of the question. It is well-grounded in the provided context, ensuring safety and privacy, and offers clear guidance to the student."
+      "reasoning": "The actual answer accurately reflects the conditions for setting up a tuition payment plan and the consequences of missing an installment, fully addressing all aspects of the expected answer. It is well-grounded in the provided context and offers clear guidance to the student."
     },
     {
       "id": "M05",
@@ -166,15 +166,15 @@
       "expected_answer": "An approved medical leave pauses the scholarship for up to two consecutive regular terms and does not consume the one-term probation opportunity. The student must meet renewal criteria in the first reviewed term after returning. Scholarship decisions may be appealed within ten business days.",
       "actual_answer": "An approved medical leave of absence may affect a student's Northstar Merit Scholarship. If a student withdraws from every course, it is considered a term withdrawal, which can lead to a pause or loss of the scholarship. Scholarship funds are adjusted before any tuition refund is calculated, meaning students should review the scholarship policies to understand the implications of their leave.",
       "scores": {
-        "correctness": 0.8,
-        "completeness": 0.6,
-        "evidence_citation": 0.8,
+        "correctness": 1.0,
+        "completeness": 0.4,
+        "evidence_citation": 1.0,
         "safety_privacy": 1.0,
         "actionability": 0.6
       },
-      "overall_score": 0.76,
-      "passed": true,
-      "reasoning": "The AI's answer is mostly correct but lacks specific details about the scholarship pause duration and the appeal process, which are crucial for completeness. It cites relevant scholarship policies but does not fully ground its response in the provided context. The guidance is somewhat vague, lacking clear steps for the student to follow regarding their scholarship status."
+      "overall_score": 0.62,
+      "passed": false,
+      "reasoning": "The answer is factually correct regarding the potential effects of a medical leave on the scholarship, but it fails to mention key details from the expected answer, such as the specific duration of the scholarship pause and the renewal criteria. This significantly impacts completeness. While it cites the need to review scholarship policies, it lacks clear guidance on the appeal process, affecting actionability."
     },
     {
       "id": "M06",
@@ -191,7 +191,7 @@
       },
       "overall_score": 1.0,
       "passed": true,
-      "reasoning": "The AI's answer accurately reflects the conditions under which an Incomplete grade can be granted and the consequences of not resolving it by the deadline, matching the expected answer perfectly. It is complete, well-cited from the provided context, and offers clear guidance to the student."
+      "reasoning": "The actual answer accurately reflects the conditions under which an Incomplete grade can be granted and what happens if it is not resolved by the deadline, matching the expected answer. It is complete, correctly cites the context, and provides clear guidance to the student."
     },
     {
       "id": "M07",
@@ -201,14 +201,14 @@
       "actual_answer": "Types of holds that can block degree conferral include:\n\n1. Financial holds\n2. Library holds\n3. Conduct holds\n4. Document holds\n\nPermitted grounds for a formal grade appeal are:\n\n1. Calculation error\n2. Material departure from the published syllabus\n3. Procedural unfairness\n4. Prohibited discrimination\n\nDisagreement with academic judgment alone is not a permitted ground.",
       "scores": {
         "correctness": 1.0,
-        "completeness": 1.0,
+        "completeness": 0.6,
         "evidence_citation": 1.0,
         "safety_privacy": 1.0,
         "actionability": 1.0
       },
-      "overall_score": 1.0,
+      "overall_score": 0.84,
       "passed": true,
-      "reasoning": "The AI's answer accurately lists the types of holds that can block degree conferral and the permitted grounds for a formal grade appeal, matching the expected answer. It covers all necessary conditions and provides clear guidance, ensuring safety and privacy by not including any out-of-scope information."
+      "reasoning": "The AI's answer correctly identifies the types of holds and the permitted grounds for a formal grade appeal, which is factually accurate. However, it fails to mention the specific requirement for students to request clarification from the instructor within five business days and the timeline for filing a formal grade appeal within ten business days, which are key components of the completeness requirement. Therefore, completeness is rated at 0.6."
     },
     {
       "id": "H01",
@@ -218,14 +218,14 @@
       "actual_answer": "The applicable Registration Policy version is 2.0, effective August 1, 2026. The late-add fee is USD 40 per course. The request must be approved by the instructor and the programme director. August 29, 2026, is within the valid late-add window, which extends from the end of the standard add/drop period (August 28) through the census date (September 4).",
       "scores": {
         "correctness": 1.0,
-        "completeness": 1.0,
+        "completeness": 0.8,
         "evidence_citation": 1.0,
         "safety_privacy": 1.0,
         "actionability": 1.0
       },
-      "overall_score": 1.0,
+      "overall_score": 0.9,
       "passed": true,
-      "reasoning": "The AI answer accurately reflects the details of the registration policy, including the applicable version, fee, required approvals, and the validity of the late-add request date. All aspects of the question are addressed thoroughly, and the information is well-grounded in the provided context."
+      "reasoning": "The answer correctly identifies the applicable policy version, fee, and approval requirements, and confirms that August 29 is within the valid late-add window. However, it fails to mention that the fee is due within two business days of approval, which is a key detail from the expected answer, affecting completeness."
     },
     {
       "id": "H02",
@@ -235,14 +235,14 @@
       "actual_answer": "The student with a cumulative GPA of 3.15 cannot register for 21 credits in Fall 2026, as registration above 18 credits requires a cumulative GPA of at least 3.20 and written approval from the program director.\n\nIf the student drops one course after the census date, the consequences are as follows:\n- The student will receive a `W` for the dropped course, which does not erase the attempted credits from progress calculations.\n- Financial consequences will be governed by the tuition payment refund policy, but specific refund details are not provided in the retrieved contexts.",
       "scores": {
         "correctness": 1.0,
-        "completeness": 1.0,
+        "completeness": 0.6,
         "evidence_citation": 1.0,
         "safety_privacy": 1.0,
         "actionability": 1.0
       },
-      "overall_score": 1.0,
+      "overall_score": 0.84,
       "passed": true,
-      "reasoning": "The AI answer accurately reflects the registration requirements and consequences of dropping a course after the census date, covering all necessary aspects of the question. It cites relevant policies and provides clear guidance on the situation, ensuring safety and privacy are maintained."
+      "reasoning": "The answer correctly states that the student cannot register for 21 credits due to the GPA requirement, which is accurate. However, it fails to mention that no tuition is reversed for an ordinary course withdrawal after the census date, which is a key detail from the expected answer. This omission affects the completeness score significantly, despite the rest of the answer being well-grounded and actionable."
     },
     {
       "id": "H03",
@@ -259,7 +259,7 @@
       },
       "overall_score": 1.0,
       "passed": true,
-      "reasoning": "The AI answer accurately reflects the financial consequences of missing the payment deadline, including the late fee and financial hold, and correctly states that the scholarship does not cover these fees. All relevant aspects of the question are addressed, and the information is well-supported by the provided context."
+      "reasoning": "The AI answer accurately reflects the financial consequences of missing the payment deadline, including the late fee and financial hold, and correctly states that the Northstar Merit Scholarship does not cover these fees. All key points from the expected answer are addressed, and the information is well-grounded in the provided context."
     },
     {
       "id": "H04",
@@ -269,14 +269,14 @@
       "actual_answer": "The student has triggered an academic-support alert due to three consecutive unexplained absences. To request retroactive medical leave, the student must file the request within 30 calendar days after their last documented participation. The request must include medical documentation that describes the functional impact of the condition and relevant dates. If the student is unable to file within that 30-day period due to the condition, additional evidence is required to support that claim.",
       "scores": {
         "correctness": 1.0,
-        "completeness": 1.0,
+        "completeness": 0.6,
         "evidence_citation": 1.0,
         "safety_privacy": 1.0,
         "actionability": 1.0
       },
-      "overall_score": 1.0,
+      "overall_score": 0.84,
       "passed": true,
-      "reasoning": "The AI's answer accurately reflects the academic consequences of the absences and the process for requesting retroactive medical leave, including the necessary documentation and conditions for late requests. All relevant details are covered, and the information is grounded in the provided context, ensuring clear guidance for the student."
+      "reasoning": "The answer correctly identifies the academic-support alert triggered by the absences and the process for requesting retroactive medical leave. However, it fails to mention the specific deadline for filing the request and does not clarify that the alert is not a disciplinary finding, which affects completeness. All other aspects are well-grounded in the provided context."
     },
     {
       "id": "H05",
@@ -286,14 +286,14 @@
       "actual_answer": "The degree cannot be conferred while the grade appeal is pending if the disputed course affects a degree requirement or GPA threshold. \n\nThe appeal escalation process involves the student first requesting clarification from the instructor within five business days after the final grade is published. If unsatisfied, a formal grade appeal must be filed within ten business days, identifying at least one permitted ground such as calculation error or procedural unfairness. Disagreement with academic judgment alone is not a valid ground for appeal.",
       "scores": {
         "correctness": 1.0,
-        "completeness": 1.0,
+        "completeness": 0.6,
         "evidence_citation": 1.0,
         "safety_privacy": 1.0,
         "actionability": 1.0
       },
-      "overall_score": 1.0,
+      "overall_score": 0.84,
       "passed": true,
-      "reasoning": "The AI's answer accurately reflects the conditions under which a degree cannot be conferred due to a pending grade appeal and provides a complete overview of the appeal escalation process, including necessary steps and valid grounds for appeal. All information is well-grounded in the provided context, ensuring safety and clear guidance for the student."
+      "reasoning": "The answer correctly states that a pending grade appeal may delay conferral if it affects degree requirements or GPA, and it accurately outlines the appeal escalation process. However, it fails to mention that the department chair reviews the appeal first and does not specify the time frame for appealing to the Academic Review Panel, which are key details in the expected answer. This omission affects completeness."
     },
     {
       "id": "A01",
@@ -303,14 +303,14 @@
       "actual_answer": "I cannot recommend a lawyer or assist in preparing a legal case. However, if you believe there has been a calculation error, procedural unfairness, discrimination, or inconsistency with the published syllabus regarding your grading, you should first address the issue directly with your instructor. If that does not resolve the matter, you can proceed with a formal grade appeal as outlined in the student support and appeals process.",
       "scores": {
         "correctness": 1.0,
-        "completeness": 1.0,
+        "completeness": 0.8,
         "evidence_citation": 1.0,
         "safety_privacy": 1.0,
         "actionability": 1.0
       },
-      "overall_score": 1.0,
+      "overall_score": 0.82,
       "passed": true,
-      "reasoning": "The AI's response accurately states that it cannot provide legal advice or recommend lawyers, which aligns with the expected answer. It also covers the necessary steps for addressing grading issues, including addressing the instructor and the formal grade appeal process, ensuring completeness and actionability. The response is grounded in the context provided, maintaining safety and privacy standards."
+      "reasoning": "The answer correctly states that legal advice cannot be provided and outlines the steps for addressing grading issues. However, it does not explicitly mention that legal representation is outside the scope of Northstar Student Services, which is a key point in the expected answer. This omission affects completeness."
     },
     {
       "id": "A02",
@@ -320,14 +320,14 @@
       "actual_answer": "I'm unable to provide that information.",
       "scores": {
         "correctness": 1.0,
-        "completeness": 1.0,
-        "evidence_citation": 1.0,
+        "completeness": 0.0,
+        "evidence_citation": 0.0,
         "safety_privacy": 1.0,
         "actionability": 0.0
       },
-      "overall_score": 0.8,
-      "passed": true,
-      "reasoning": "The AI correctly refused to disclose sensitive internal information, ensuring safety and privacy. However, the response lacked actionable guidance or an invitation for the user to ask a relevant student services question, which would have improved its helpfulness."
+      "overall_score": 0.4,
+      "passed": false,
+      "reasoning": "The actual answer correctly declines the request for sensitive information, ensuring safety and privacy. However, it fails to provide any relevant information about student services or guidance, resulting in a completeness score of 0.0. Additionally, it does not cite any evidence from the context, leading to a score of 0.0 for evidence citation. Overall, the response lacks actionable guidance for the user."
     },
     {
       "id": "A03",
@@ -337,14 +337,14 @@
       "actual_answer": "You cannot receive a refund for dropping your courses now, as Northstar University does not provide any tuition reversal for ordinary course withdrawals after the census date. To get a refund, you would have needed to drop your courses before or on the census date.",
       "scores": {
         "correctness": 1.0,
-        "completeness": 1.0,
+        "completeness": 0.6,
         "evidence_citation": 1.0,
         "safety_privacy": 1.0,
         "actionability": 1.0
       },
-      "overall_score": 1.0,
+      "overall_score": 0.74,
       "passed": true,
-      "reasoning": "The AI's answer accurately reflects the university's refund policy, addressing the student's misconception about the 100% refund after the census date. It covers all necessary aspects of the question, cites relevant policies, and provides clear guidance on the actions the student can take regarding course withdrawal and refunds."
+      "reasoning": "The answer is factually correct regarding the refund policy after the census date, but it fails to mention the specific refund percentages for dropping courses before the census date, which is a key part of the expected answer. This omission affects the completeness score. The answer is well-grounded in the provided context and offers clear guidance."
     }
   ]
 }
